@@ -1,6 +1,6 @@
-# OpenText Motion Brand System (After Effects + Figma MCP)
+# OpenText Motion Brand System (After Effects + Figma + Premiere MCP)
 
-A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding system built on the **Agent Skills open standard** (`.agents/skills/` + `AGENTS.md`). Works across **Antigravity, Claude Code, Cursor, OpenAI Codex, Gemini CLI**, and any MCP-compatible AI client using **`ae-motion` MCP** (Adobe After Effects) and **`figma` MCP** (Figma).
+A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding system built on the **Agent Skills open standard** (`.agents/skills/` + `AGENTS.md`). Works across **Antigravity, Claude Code, Cursor, OpenAI Codex, Gemini CLI**, and any MCP-compatible AI client.
 
 ---
 
@@ -18,7 +18,7 @@ A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding sy
 │   └── Modules/
 │       ├── OT_Corp_Brand_30fps.aep  # Standalone Corp Brand Package (14 MB, 16:9 & 9:16)
 │       └── OT_Bento_30fps.aep       # Standalone Bento Module (2.4 MB, zero external footage)
-└── setup.sh                     # Cross-platform global skill installer (Antigravity, Claude Code, Codex, Cursor)
+└── setup.sh                     # One-command skills + MCP server installer (macOS)
 ```
 
 ### Key Standards
@@ -29,25 +29,60 @@ A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding sy
 
 ---
 
-## Team Setup (30 Seconds)
+## Team Setup
 
-1. **Clone this repo** anywhere on your machine:
-   ```bash
-   git clone https://github.com/kolapy/OT-MCP-Brand-system.git
-   cd OT-MCP-Brand-system
-   ```
-2. **Install both skills globally** (auto-detects Antigravity, Claude Code, Codex, and Cursor; pass `--all` to install for all):
-   ```bash
-   chmod +x setup.sh && ./setup.sh
-   ```
-   *(Any tool that reads workspace `.agents/skills/` or `AGENTS.md` also discovers them automatically without running `setup.sh`.)*
-3. **Configure `AE_MCP_ALLOWED_DIRS`** in your MCP client config under `ae-motion` (using the exact path printed by `./setup.sh`), then restart/refresh your `ae-motion` MCP server.
+### 1. Clone This Repo
+```bash
+git clone https://github.com/kolapy/OT-MCP-Brand-system.git
+cd OT-MCP-Brand-system
+```
+
+### 2. Install Skills + Required MCP Servers
+- **Skills only** (if you already have the MCPs installed):
+  ```bash
+  ./setup.sh
+  ```
+- **Full automated setup** (installs both global skills **and** clones/builds the After Effects & Premiere Pro MCP servers + CEP panels into `~/mcp-servers/`):
+  ```bash
+  ./setup.sh --install-mcps
+  ```
+  *(Pass `--all` to symlink skills into all agent folders: `~/.gemini`, `~/.claude`, `~/.codex`, `~/.cursor`.)*
+
+---
+
+## Required MCP Servers
+
+This workflow uses **three MCP servers**:
+
+| MCP Server | Source | Purpose | Install |
+| :--- | :--- | :--- | :--- |
+| **After Effects (`ae-motion`)** | [`dha-aa/ae-motion`](https://github.com/dha-aa/ae-motion) | Control After Effects comps, layers, text, expressions, previews, and renders | `./setup.sh --install-mcps` (or clone + `bash ./scripts/install.sh`, Windows: `./scripts/install.ps1`) |
+| **Premiere Pro (`premiere-pro-mcp`)** | [`hetpatel-11/Adobe_Premiere_Pro_MCP`](https://github.com/hetpatel-11/Adobe_Premiere_Pro_MCP) | Edit sequences, assemble timelines, and bridge B-roll/cuts in Premiere Pro | `./setup.sh --install-mcps` (or clone + `npm install && npm run build && npm run setup:mac`, Windows: `npm run setup:win`) |
+| **Figma (`figma`)** | Official Remote MCP (`https://mcp.figma.com/mcp`) | Build Bento storyboards, upload B-roll stills & OT SVGs, and take screenshots | **Antigravity**: Plugins Manager → install **Figma** & sign in<br>**Claude Code**: `claude mcp add --transport http figma https://mcp.figma.com/mcp`<br>**Cursor / Codex**: Add remote HTTP MCP URL `https://mcp.figma.com/mcp` |
+
+### Required `AE_MCP_ALLOWED_DIRS` Setting
+In your MCP config (`~/.gemini/antigravity/mcp_config.json`, Cursor `mcp.json`, Claude `~/.claude.json`, or Codex `config.toml`), set `AE_MCP_ALLOWED_DIRS` on `ae-motion` so After Effects can import the brand modules from **any** project (`setup.sh` prints your exact ready-to-paste JSON):
+
+```json
+"ae-motion": {
+  "command": "node",
+  "args": ["/Users/<you>/mcp-servers/ae-motion/dist/index.js"],
+  "env": {
+    "AE_MCP_ALLOWED_DIRS": "/path/to/OT-MCP-Brand-system:/Users/<you>"
+  }
+}
+```
+
+### Optional CLI Tools (for `@opentext` YouTube B-Roll & SVG Icons)
+```bash
+brew install yt-dlp ffmpeg librsvg
+```
 
 ---
 
 ## Working in Parallel (Figma vs. After Effects)
 - **Figma MCP (Remote)**: Works **100% headless** via Figma's cloud API—Figma Desktop does **not** need to be open, so you and the agent can work simultaneously.
-- **After Effects MCP (`ae-motion`)**: Requires **After Effects open** with `Window → Extensions → AE Motion MCP` docked. You can freely work in other apps (Figma, Premiere, Resolve, browser) while the agent animates in AE in the background, though two people/agents cannot edit two different projects in the same AE instance simultaneously.
+- **After Effects (`ae-motion`) & Premiere Pro (`premiere-pro-mcp`)**: Require the Adobe app open with its MCP CEP panel docked (`Window → Extensions → AE Motion MCP` / Premiere MCP panel). You can freely work in other apps while the agent edits in the background, though two people/agents cannot edit two different projects in the same Adobe instance simultaneously.
 
 ---
 
