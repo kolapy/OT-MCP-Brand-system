@@ -1,0 +1,17 @@
+# macOS metadata
+.DS_Store
+._*
+**/.DS_Store
+**/._*
+
+# Raw local archives & licensed stock (never push to GitHub)
+Assets/Dependancies/
+Assets/B-Roll/
+Assets/Icons/
+
+# AE backups, auto-saves, snapshots, and temp renders
+Projects/*_backup*.aep
+Projects/AE MCP Brand System_1.aep
+Projects/Adobe After Effects Auto-Save/
+Projects/snapshots/
+*.log
