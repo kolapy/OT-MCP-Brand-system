@@ -76,8 +76,8 @@ Use these as structural starting points; upgrade typography from `MyriadPro-Regu
 | Comp Name | Purpose & Structure |
 | :--- | :--- |
 | `4 up` | 4 rounded (`18 px`) card mattes (`1`–`4`) over white/custom backing |
-| `Border Frame` | `alpha_inverted` rounded frame with `4-Color Gradient` + `Solid White` checkbox |
-| `Frame` | Rounded `MATTE` over `Footage Holder Comp` on top of canonical `NEW Lving Blue` (`BG`) |
+| `Border Frame` | `alpha_inverted` rounded frame with `4-Color Gradient` + `Solid White` checkbox. For full-screen white borders in `Frame - MAIN`, animate `MATTE 2` IN (`Scale 113% → 100%`, `ease_out 61 / ease_in 60`; `Rect Size 1778.1 → 1839.1`) and **invert the OUT curve** (`Scale 100% → 113%`, `ease_out 60 / ease_in 61`; `Rect Size 1839.1 → 1778.1`) before every slide or `Frame Down`. |
+| `Frame` | Rounded `MATTE` (`18 px` radius) over `Footage Holder Comp` on top of canonical `NEW Lving Blue` (`BG`). **Coupled 4-State Rig**: `MATTE` (`Position` + `Rect Size`) and `Footage Holder Comp` (`Scale` `120% ↔ 100%`) move together across 4 marker states: `Frame in ->` (rise `y: 1610 → 540`, expand `1838×998 → 1998×1118`, scale `120% → 100%`), `Slide Left` (`x: 960 → 520`, `927×989`, scale `100% → 120%`), `Slide Right` (`x: 960 → 1400`, `927×989`, scale `100% → 120%`), and `<- Frame out` (`Frame Down` to `y: 1610` to reveal full-screen titles/slides on `BG`). Always keyframe `MATTE` and `Footage Holder Comp` `Scale` 1-to-1. |
 | `Windows` | 4 staggered (`0.33 s` offset) rounded (`18 px`) drop-shadowed matte windows (`1–4 - Matte - MOVE ME`) paired with `Window - Footage Holder 1–4` precomps |
 
 ### Footage Holder Precomps (`Assets/_Comps/`)

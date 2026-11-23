@@ -42,7 +42,9 @@ Always use the **`Inter`** family (replace `MyriadPro-Regular` in Bento skeleton
 | **Hero / Slide Headline** | `Inter-Bold` | `96–140 px` | `1.10–1.15×` | White `[1,1,1]` | Keep concise (1–2 lines) |
 | **Bento Card Title / Metric** | `Inter-Bold` | `48–72 px` | `1.15×` | White `[1,1,1]` | Left-aligned inside card padding |
 | **Lower Third — Name** | `Inter-Bold` | `46 px` | `55.2 px` | White `[1,1,1]` | Auto-sizes `BG` via `sourceRectAtTime` |
-| **Lower Third — Title** | `Inter-Regular` | `27 px` | `32.4 px` | White `[1,1,1]` | Supports `Double Title` checkbox |
+| **Lower Third — Title** | `Inter-Regular` | `27 px` | `32.4 px` | White `[1,1,1]` | Always append `, OpenText` for internal speakers; supports `Double Title` checkbox |
+| **Bento Pull-Quote** | `Inter-Bold` | `56 px` | `70 px` | White `[1,1,1]` | `-10` tracking, `box_size: [730, 560]`, `anchor: [0, 0]`, `x = 1477` (right) / `x = 493` (left), visually centered on `y = 540` |
+| **Bento Quote Attribution** | `Inter-Regular` | `34 px` | `70 px` | `[0.84, 0.93, 1.0]` | Styled via `set_text` range on `— Speaker Name` inside the quote box |
 | **Body / Supporting Label** | `Inter-Regular` | `28–38 px` | `1.25×` | White or Off-White | Avoid <26 px on 1080p |
 | **CTA Bumper Text** | `Inter-Regular` | `290 px` at `30%` scale (`~87 px` effective) | `400 px` | White (or Black on White theme) | Centered below logo lockup |
 
