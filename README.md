@@ -33,8 +33,8 @@ A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding sy
 
 1. **Clone this repo** anywhere on your machine:
    ```bash
-   git clone <YOUR_GITHUB_REPO_URL>
-   cd <repo-folder>
+   git clone https://github.com/kolapy/OT-MCP-Brand-system.git
+   cd OT-MCP-Brand-system
    ```
 2. **Install both skills globally** (auto-detects Antigravity, Claude Code, Codex, and Cursor; pass `--all` to install for all):
    ```bash
