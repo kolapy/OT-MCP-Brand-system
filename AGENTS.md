@@ -6,6 +6,7 @@ This repository provides modular **OpenText motion graphics templates** (After E
 Load the relevant skill from `.agents/skills/` before editing Figma or After Effects:
 - **After Effects Production**: [`.agents/skills/ot-brand-motion/SKILL.md`](./.agents/skills/ot-brand-motion/SKILL.md) — uses `ae-motion` MCP with `Projects/Modules/OT_Corp_Brand_30fps.aep`, `Projects/Modules/OT_Bento_30fps.aep`, and `Projects/AE MCP Brand System.aep`.
 - **Figma Bento Storyboarding**: [`.agents/skills/ot-storyboard-bento/SKILL.md`](./.agents/skills/ot-storyboard-bento/SKILL.md) — uses `figma` MCP, `ot-icons-library.onrender.com`, `@opentext` B-roll sourcing, and bundled official brand stills in `.agents/skills/ot-storyboard-bento/resources/`.
+- **Multi-Cam Interview Cut & QA**: [`.agents/skills/interview-cut/SKILL.md`](./.agents/skills/interview-cut/SKILL.md) — project-agnostic multi-cam editing, per-segment acoustic sync, complementary audio ducking, Lumetri color continuity, zero-jump-cut audits, and orphan-free title / social-cut QA (`premiere-pro-mcp` + `ae-motion`).
 
 ## Non-Negotiable Rules
 1. **30 fps everywhere** (`1920x1080` 16:9, `1080x1920` 9:16, `3840x2160` 4K).

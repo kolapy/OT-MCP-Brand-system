@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS=("ot-brand-motion" "ot-storyboard-bento")
+SKILLS=("ot-brand-motion" "ot-storyboard-bento" "interview-cut")
 MCP_DIR="${OT_MCP_DIR:-$HOME/mcp-servers}"
 
 INSTALL_ALL_AGENTS=false

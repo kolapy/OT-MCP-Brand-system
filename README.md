@@ -10,7 +10,8 @@ A modular, zero-plugin, 30 fps OpenText motion graphics & Bento storyboarding sy
 ├── AGENTS.md                    # Universal cross-agent instructions
 ├── .agents/skills/
 │   ├── ot-brand-motion/         # After Effects animation skill (tokens, catalog, native expressions)
-│   └── ot-storyboard-bento/     # Figma Bento Storyboard skill + bundled real brand stills & OT Icons lookup
+│   ├── ot-storyboard-bento/     # Figma Bento Storyboard skill + bundled real brand stills & OT Icons lookup
+│   └── interview-cut/           # Project-agnostic multi-cam interview cut, sync, ducking, color & QA skill
 ├── Assets/
 │   └── Brand_Footage/           # Minimal collected footage for Corp Brand module (~42 MB total)
 ├── Projects/
