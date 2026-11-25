@@ -60,7 +60,7 @@ When the user already has a different client/working `.aep` open and asks for Op
 2. Look up the required template comp(s) in [Template Catalog](./references/template-catalog.md) (matching target aspect ratio `16x9` or `9x16`).
 3. Create a new master assembly comp (`create_comp`, `fps: 30`) or duplicate the target template comp into a working folder.
 4. Customize layers:
-   - **Lower Thirds (`L3`)**: Update `Name` and `Title` via `set_text`. Toggle `CTRL` checkboxes (`Double Title`, and `Left Justified` on Right-hand L3s) via `set_property`. Retime reveals by moving layer `in`/`out` or `TR In` / `TR Out` markers—do **not** touch the `BG` `sourceRectAtTime()` expression.
+   - **Lower Thirds (`L3`)**: Update `Name` and `Title` via `set_text`. **Always append `, OpenText`** to internal speaker titles (e.g., `Chief Executive Officer, OpenText`, `President, Worldwide Sales, OpenText`). Toggle `CTRL` checkboxes (`Double Title`, and `Left Justified` on Right-hand L3s) via `set_property`. Retime reveals by moving layer `in`/`out` or `TR In` / `TR Out` markers—do **not** touch the `BG` `sourceRectAtTime()` expression.
    - **CTA Bumpers**: Update `CTA Text` / `CTA Text 2` via `set_text`. Keep `scale` and `box_size` intact so the 3D camera rig frames properly.
    - **Transitions & Idents**: Drop `Transition - Blue/Black/White` across scene cuts; place `STD ident` (with `OpenText_Mnemonic_Final_WAV.wav`) as opener/closer.
 
@@ -83,14 +83,35 @@ When expanding beyond existing templates (e.g., kinetic stats, feature callouts,
 3. Use `sourceRectAtTime()` expressions from [Native AE Expressions](./references/native-expressions.md) for any dynamic pills, badges, or chips so text edits never break box framing.
 4. Connect scenes using canonical `Transition - Blue/Black/White` comps and close with `Bumper OUT` or `STD ident`.
 
+### Workflow 4: Speaker & Pull-Quote Videos via Bento `Frame` (`Frame - MAIN`) + Dynamic Link
+For executive welcomes, keynote cutdowns, and speaker videos with visualized pull-quotes and chapter titles, **assemble the layout natively inside After Effects' `OUTPUT/Frame` comp** (renamed e.g. `Frame - MAIN`) and **Dynamic Link** it into Premiere Pro (keeping Premiere for clean rough footage cuts):
+1. **No Custom "Vibed" Dark-Card Slides**: Never invent dark-scrim/pill title cards. Use **`Bumper IN CTA-- White - 16x9`** (with logo ON for the opening bumper) and clean centered `Inter-Bold` titles sitting directly on `BG` (`NEW Lving Blue`) behind `Footage Holder Comp`—revealed via `Frame Down`. Do **not** invent extra subheads unless requested; keep single-line titles dead-center (`[960, 540]`).
+2. **Real Source Slides First**: If the brief references an existing slide at a source timestamp (e.g., *"Found at 1:06:20"*), extract and crop the actual 1080p slide with `ffmpeg`, mask it with an `18 px` rounded Bento shape matte over `NEW Lving Blue`, and reveal it via `Frame Down` with a subtle slide-up and `3%` slow push.
+3. **Coupled `MATTE` + `Footage Holder Comp` Rig (Never Leave Scale Behind)**:
+   - Place the trimmed speaker footage sequence (`01_Footage_Track`) inside `Footage Holder Comp`.
+   - `MATTE` (`Position` + `Rectangle 1 → Size`) and `Footage Holder Comp` (`Scale` `120% ↔ 100%`) work as a **coupled rig**. Every `Frame Up`, `Frame Down`, `Slide Left`, and `Slide Right` beat must keyframe **both** layers 1-to-1 at the exact same timestamps:
+     - Full-bleed (`1998.36 × 1118.63`) ↔ `Footage Holder Comp` `Scale = 100%`.
+     - Bento card (`1838.36 × 998.625` or Slide `927.36 × 989.625`) ↔ `Footage Holder Comp` `Scale = 120%`.
+4. **Full-Screen White `Border` (`MATTE 2`) Pattern**:
+   - When using the white rounded border (`Border` with `Solid White` enabled, `4-Color Gradient` off, `alpha_inverted` to `MATTE 2`), extend both layers across the full timeline and keyframe IN (`Scale 113% → 100%`, `ease_out 61% / ease_in 60%`) on every full-screen video segment.
+   - For every OUT (just before `Slide Left`, `Slide Right`, or `Frame Down`), **invert the bezier curve** (`Scale 100% → 113%`, `ease_out 60% / ease_in 61%`, and `Rect Size 1839.1 → 1778.1`) so the border accelerates cleanly off all 4 edges.
+5. **High-Impact Pull-Quote Discovery & Uniform Styling**:
+   - When the SME hasn't picked quotes, extract clip audio with `ffmpeg` and transcribe with `faster-whisper` (`device='cpu', compute_type='int8'`) to get verbatim quotes with exact spoken timestamps.
+   - Place pull-quotes **behind `Footage Holder Comp` (above `BG`)**, alternating `Slide Left` (quote on right) and `Slide Right` (quote on left), using the exact **Canonical Bento Quote Spec** in [Brand Tokens & Motion DNA](./references/brand-tokens.md) (`56 px` `Inter-Bold`, `34 px` attribution, `box_size: [730, 560]`, `anchor: [0, 0]`, `x = 1477` right / `x = 493` left, visually centered on `y = 540`).
+6. **Mandatory Quote Framing Audit**:
+   - Visually inspect **every** `Slide Left`/`Slide Right` timestamp with `preview_frame`.
+   - Check **headroom** at `120%` scale (shift `Y` down `+60–75 px` inside `01_Footage_Track` whenever the top of the speaker's head approaches or clips the Bento window edge).
+   - Check **PiP / wide-stage shots**: conference recordings often place the presenter in a small left PiP box or off-center on stage. Inspect the uncropped source frame and keyframe `Position` + `Scale` on that clip inside `01_Footage_Track` so the presenter (never a slide edge or empty chairs) fills the Bento window.
+
 ---
 
 ## Verification & QA Loop (Required Before Finishing)
 
 1. Run `review_motion` on the target comp and fix any reported warnings (overlapping text, clipping, frozen holds, off-frame elements).
-2. Run `preview_frame` with a 6–9 timestamp contact sheet spanning entrance, stagger, mid-hold, and exit.
+2. Run `preview_frame` with a 6–9 timestamp contact sheet spanning entrance, stagger, mid-hold, every `Slide Left`/`Slide Right` quote frame, and exit.
 3. Inspect the contact sheet visually for:
-   - `Inter` typography legibility and contrast against Living Blue / Living Metal / footage
+   - `Inter` typography legibility, uniform quote sizing, and title-safe margins
+   - Presenter headroom and framing inside every Bento window (zero cropped heads, zero empty slide-only crops)
    - Clean `sourceRectAtTime()` box padding (no clipped text or awkward gaps)
    - Smooth native text reveal IN/OUT (no expression errors or stuck frames)
    - Consistent `18 px` card radii, alignment, and safe margins
@@ -98,10 +119,12 @@ When expanding beyond existing templates (e.g., kinetic stats, feature callouts,
 
 ---
 
-## Rendering & Premiere Pro Handoff
+## Rendering, Premiere Pro Handoff & MCP Guardrails
 
-When rendering branded motion graphics from AE to import into Premiere Pro:
-1. **Alpha Output Module**: Always render `L3` lower thirds and `Bumper IN CTA` intros with `om_template: "High Quality with Alpha"` (ProRes 4444 12-bit, `yuva444p12le`) into the project's `Assets/Graphics/` folder so alpha wipes and pill shapes composite cleanly.
-2. **Avoid CEP Contention**: Running 3+ simultaneous `aerender` jobs can saturate CPU and temporarily stall Premiere Pro's CEP bridge. Render 1–2 comps at a time or finish all `aerender` jobs before issuing Premiere MCP calls.
-3. **Lay Directly in the Edit Sequence**: Place rendered graphics directly on upper video tracks (`V3`/`V4`) in the active Premiere edit sequence (no extra nested master comp needed), reserving `0.00s`–`7.80s` at the head for `Bumper IN CTA` and overlapping `IDENT 2025 - Tail --2026 - Rev2.mov` over the final `1.30s` of the closing shot.
-4. **Two-Person Studio Interviews (`L3`)**: When both speakers are introduced together on a Wide 2-Shot, stack `Lowerthird 1 EDIT ME - LEft - OUT` and `Lowerthird 1 EDIT ME - Right - OUT` simultaneously on `V3`/`V4` and hold the wide shot until both lower thirds finish animating out (`~10s`).
+1. **Always Set `start` Equal to `in` on Precomps**: When adding precomp layers (`L3`, `Bumper IN CTA`, `STD ident`) at `in: T`, always pass `start: T` as well—otherwise AE starts the precomp at `0.0s` and its animation will have already finished before `in`.
+2. **Alpha Output Module**: Always render `L3` lower thirds, `Bumper IN CTA` intros, and `STD ident` with `om_template: "High Quality with Alpha"` (ProRes 4444 12-bit, `yuva444p12le`) into `Assets/Renders/` or `Assets/Graphics/` so alpha wipes and pill shapes composite cleanly.
+3. **Avoid CEP & Render Contention (Windows)**:
+   - Never call multiple `render_start` tools in parallel (concurrent `prepare_render` calls can lock AE's bridge). Queue renders one at a time, or run `aerender.exe` sequentially via PowerShell using `Start-Process -Wait -NoNewWindow` (**never** pipe `aerender.exe` directly into `Select-Object`, which can hang on stdout).
+   - In Premiere Pro (`premiere-pro-mcp`), run heavy `import_media` (multi-GB MP4s) and `add_to_timeline` calls **sequentially** (1 at a time) so the single-threaded CEP bridge never times out.
+4. **Lay Directly in the Edit Sequence / Dynamic Link**: For Dynamic Link workflows, import `Frame - MAIN` directly into Premiere Pro (**File → Adobe Dynamic Link → Import After Effects Composition**). For pre-rendered overlays, place graphics directly on upper tracks (`V2`/`V3`), reserving `0.00s`–`7.80s` at the head for `Bumper IN CTA` and overlapping `STD ident` over the final `1.30s` of the closing card/shot.
+5. **Two-Person Studio Interviews (`L3`)**: When both speakers are introduced together on a Wide 2-Shot, stack `Lowerthird 1 EDIT ME - LEft - OUT` and `Lowerthird 1 EDIT ME - Right - OUT` simultaneously on `V3`/`V4` and hold the wide shot until both lower thirds finish animating out (`~10s`).
