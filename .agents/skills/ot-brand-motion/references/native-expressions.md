@@ -80,3 +80,17 @@ Apply to each animated `Point 1–4` on `ADBE 4ColorGradient` (with matching sta
 ```javascript
 loopOut(type = "cycle", numKeyframes = 0);
 ```
+
+---
+
+## 5. Info Pill Clipping & Responsive Width (`Info Pill CTRL`)
+Used across `Assets/Components/Info Pills/` for responsive rounded pills containing a Living Blue animated badge + continuously rasterized native AE vector icon:
+
+1. **Always Create `Info Pill CTRL` Null First**: Add `Auto Width` (Checkbox), `Manual Width` (Slider), and `Right Padding` (Slider) to `Info Pill CTRL` *before* assigning any expressions that reference `thisComp.layer("Info Pill CTRL")` so AE never throws missing-layer expression errors.
+2. **Track Matte + Continuous Rasterization (`☀`) Clipping Recipe**:
+   - After Effects does **not** chain Track Mattes (`Living Blue → Pill_Badge` ignores `Pill_Badge → Pill_BG`), and precomp layers with `Collapse Transformations / Continuously Rasterize (☀)` **ignore** `Preserve Underlying Transparency (T)`.
+   - **Correct Stack**:
+     - Bottom layer: `Pill_BG` (white rounded rect, **no** internal Drop Shadow — apply `Drop Shadow` externally on the `Info Pill` precomp layer in the parent B-Roll comp).
+     - `Living Blue`: Alpha Track Matte to `Pill_Badge` + **`Preserve Underlying Transparency (T)` ON**.
+     - `Pill_Title` & `Pill_Sub`: **`Preserve Underlying Transparency (T)` ON**.
+     - `Pill_Icon` (continuously rasterized `100×100` vector precomp): Apply `ic.setTrackMatte(bg, TrackMatteType.ALPHA)` AND **immediately restore `bg.enabled = true`** so the vector icon clips crisply inside `Pill_BG` without turning `Pill_BG` invisible.

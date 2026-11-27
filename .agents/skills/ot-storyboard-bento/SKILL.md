@@ -31,15 +31,15 @@ Use this skill for **pre-production** of OpenText videos using the **Bento treat
   - Column stride: **`2040 px`** (`x = 0, 2040, 4080` → `120 px` gap)
   - Row stride: **`1420 px`** (`y = 0, 1420, 2840, ...` → `239 px` gap)
 
-### Bento Frame Geometry (`1920 × 1080` visual area)
-- **Living Blue Outer Border**: Full `1920 × 1080` background filled with the OpenText Living Blue diagonal gradient (`#00008B` deep navy → `#1A6AFF` royal blue), leaving a **`38 px` border** around inner B-roll bays (`cornerRadius: 18 px`).
-- **Standard Bay Layouts** (`28 px` internal gutter):
-  - **1-Up Establisher**: `1` bay at `(38, 38)`, `1844 × 1004`
-  - **2-Up Comparison**: `2` bays at `x = 38` and `x = 974`, each `908 × 1004` — use for pure visual side-by-side comparisons (never straddle a floating white info box across the center gutter)
-  - **3-Up Pillars**: `3` bays at `x = 38, 662, 1286`, each `596 × 1004`
-  - **4-Up Grid (2×2)**: `4` bays (`908 × 488`) at `(38, 38)`, `(974, 38)`, `(38, 554)`, `(974, 554)` — align lower-corner white pills cleanly to uniform `24 px` left/bottom bay insets
-  - **50/50 Living Blue Split (Preferred for B-Roll + Copy)**: Left B-roll bay `(38, 38, 908 × 1004)` + right open Living Blue canvas (`x = 1056..1796`) with optically centered (`y = 540`) white `Inter` eyebrow, icon + headline, accent rule, and balanced 2-line body copy (zero single-word orphans)
-  - **Speaker Pull-Quote Split**: Speaker framed with balanced portrait headroom in one `927 × 990` Bento bay + optically centered (`y = 540`) eyebrow, `Inter-Bold` quote, accent divider + `55–65 px` clearance above `— Speaker Name` on the opposite Living Blue half
+### Bento Frame Geometry (`1920 × 1080` visual area — `45 px` Even-Gap Grid)
+- **Living Blue Outer Border**: Full `1920 × 1080` background filled with the OpenText Living Blue diagonal gradient (`#00008B` deep navy → `#1A6AFF` royal blue), leaving exact **`45 px` even outer margins & internal gutters** around all B-roll bays (`cornerRadius: 18 px`).
+- **Standard Bay Layouts** (`45 px` margins & gutters):
+  - **1-Up Establisher**: `1` bay at `(45, 45)`, `1830 × 990`
+  - **2-Up Comparison**: `2` bays at `x = 45` and `x = 982.5`, each `892.5 × 990` — use for pure visual side-by-side comparisons (never straddle a floating white info pill across the center gutter)
+  - **3-Up Pillars**: `3` bays at `x = 45, 670, 1295`, each `580 × 990`
+  - **4-Up Grid (2×2)**: `4` bays (`892.5 × 472.5`) at `(45, 45)`, `(982.5, 45)`, `(45, 562.5)`, `(982.5, 562.5)` — align lower-corner white Info Pills cleanly to uniform `24 px` left/bottom bay insets
+  - **50/50 Living Blue Split (Preferred for B-Roll + Copy)**: Left B-roll bay `(45, 45, 892.5 × 990)` + right open Living Blue canvas (`770 px` symmetrical measure `x = 1044..1814`) with optically centered (`y = 540`) pure oversized white `Inter-Bold` (`78–84 px`) headline and `36 px` balanced 3-line body copy — **no generic eyebrows or divider rules**
+  - **Speaker Text Splits (`Icon List`, `Pull-Quote`, `Icon Headline`, `Big Stat`)**: Speaker framed with clean portrait headroom (`Scale 100–105%`) in one `892.5 × 990` Bento bay + pure oversized editorial typography directly on the opposite Living Blue half (`x = 1044..1814` Right / `x = 106..876` Left, optically centered on `y = 540`, zero eyebrows or divider lines): `76 px` quotes anchored by a `360 px` `“` watermark (`15%` white) + 2-line attribution (`38 px` Bold / `28 px` Regular); `76 px` Icon List headline + 3 rows with `84×84` `#FFFFFF` rounded badges (`r = 18 px`, royal-blue SVG icons) + `54 px` titles / `28 px` sub-copy; or `184 px` hero Big Stat KPIs
   - **Full-Bleed Statement**: Full `1920 × 1080` Living Blue gradient with centered editorial headline + subtitle
   - **Bookends (MANDATORY — Real Brand Stills Only)**:
     - **Frame 01 (Standard Intro)**: Pick 1 of the 3 official `Bumper IN` color options based on the video's visual tone and upload its real still from `resources/`: `bumper_in_white.png` (White logo on Living Blue), `bumper_in_blue.png` (Blue/White logo on Black), or `bumper_in_black.png` (Black logo on White).

@@ -57,31 +57,22 @@ Available in both **`OUTPUT - 16x9/`** (`1920x1080`) and **`OUTPUT - 9x16/`** (`
 
 ---
 
-## Module 2: Bento Base Template
-Root folder: `Assets/_Dependancies/OT_Bento_30fps.aep/` (or `Bento Base template (converted).aep/`)
+## Module 2: Bento Base Template (`Bento Base template (converted).aep`)
+Self-contained `15 MB` portable package (`6.1 MB` `.aep` + `7.9 MB` compressed `1080p` `30 fps` placeholder MP4s in `(Footage)/Placeholder_Footage/`, zero external OneDrive links, zero third-party plugins, zero script dependencies).
 
-### Layout Skeleton Comps (`1920x1080`, `10 s`, `30 fps`)
-Use these as structural starting points; upgrade typography from `MyriadPro-Regular` → `Inter` and apply brand surfaces/animations:
-| Comp Name | Structure / Controls |
-| :--- | :--- |
-| `Bento 3-Up` | 3-card layout (4 shape layers + 4 text layers) |
-| `Bento 4-Quad` | **Parametric grid** with `4-Quad Controller` null (`Padding`, `Gap`, `Card 1–4 Width %`, `Card 1–4 Height %`) + `Card 1–4` shapes |
-| `Bento Asymmetric` | Asymmetric hero + supporting cards (4 shapes + 4 text layers) |
-| `Bento Frame` | Framed hero container with `Bento Frame Controller` (`Solid White` checkbox) |
-| `Bento Grid 2x2` | Clean dark `2x2` starter canvas (`#0F0F14`) |
-| `Bento Hero Chips` | Hero card + chip callouts (4 shapes + 4 text layers) |
-| `Bento Timeline` | Multi-step horizontal/vertical timeline (8 shapes + 24 text layers) |
-| `Info Slide` | Structured information slide (1 shape + 4 text layers) |
-
-### Polished Framing / Footage Output Comps (`OUTPUT/`)
+### Master Output Comp (`OUTPUT/`)
 | Comp Name | Purpose & Structure |
 | :--- | :--- |
-| `4 up` | 4 rounded (`18 px`) card mattes (`1`–`4`, each `900×481`) over `NEW Lving Blue`. Exact settled bay bounds: Bay 1 TL `x: 40–940, y: 39–520`; Bay 2 TR `x: 980–1880, y: 39–520`; Bay 3 BL `x: 40–940, y: 560–1041`; Bay 4 BR `x: 980–1880, y: 560–1041`. Align lower-corner pills to uniform `24 px` insets (`left: 64 / 1004`, `bottom: 496 / 1017`) and verify each bay's child video `startTime <= matte.inPoint`. |
-| `Border Frame` | `alpha_inverted` rounded frame with `4-Color Gradient` + `Solid White` checkbox. Always stack **above** any `L3` precomp (`Border Frame > L3 > Footage`). For full-screen white borders in `Frame - MAIN`, animate `MATTE 2` IN (`Scale 113% → 100%`, `ease_out 61 / ease_in 60`; `Rect Size 1778.1 → 1839.1`) and **invert the OUT curve** (`Scale 100% → 113%`, `ease_out 60 / ease_in 61`; `Rect Size 1839.1 → 1778.1`) before every slide or `Frame Down`. |
-| `Frame` | Rounded `MATTE` (`18 px` radius) over `Footage Holder Comp` on top of canonical `NEW Lving Blue` (`BG`). **Coupled 4-State Rig**: `MATTE` (`Position` + `Rect Size`) and `Footage Holder Comp` (`Scale` `120% ↔ 100%`) move together across 4 marker states: `Frame in ->` (rise `y: 1610 → 540`, expand `1838×998 → 1998×1118`, scale `120% → 100%`), `Slide Left` (`x: 960 → 520`, `927×989`, scale `100% → 120%`), `Slide Right` (`x: 960 → 1400`, `927×989`, scale `100% → 120%`), and `<- Frame out` (`Frame Down` to `y: 1610` to reveal full-screen titles/slides on `BG`). Always keyframe `MATTE` and `Footage Holder Comp` `Scale` 1-to-1. |
-| `Windows` | 4 staggered (`0.33 s` offset) rounded (`18 px`) drop-shadowed matte windows (`1–4 - Matte - MOVE ME`) paired with `Window - Footage Holder 1–4` precomps |
+| **`Bento - MASTER`** | **Canonical 1-Speaker-Frame Bento Assembly (`60.03 s`, `1920×1080`, `30 fps`, `180°` motion blur, zero expressions)**: Single speaker Bento frame (`MATTE` + `Footage Holder - Primary`) over continuous `BG - NEW Lving Blue (60s)` (two back-to-back native 30s `NEW Lving Blue` layers, zero Time Remapping). Separate transparent `Broll - 1-Up / 2-Up / 3-Up / 4-Up` comps stack **above** the speaker and animate UP from bottom as the speaker animates UP & OFF (vertical conveyor belt, uniform `61 / 60` ease). Separate transparent `Split Copy` comps stack **behind** `Footage Holder - Primary` (above `BG`), revealed cleanly on `Slide Left` / `Slide Right`. `Border Frame - White` stacks above the speaker/L3 slot. |
+| `OUTPUT/.old/*` | Archived legacy comps (`4 up`, `Border Frame`, `Frame`, `Windows`) kept for reference (`Window - Footage Holder 1–4` in `Assets/_Legacy (for .old)`). |
 
-### Footage Holder Precomps (`Assets/_Comps/`)
-- `Footage Holder Comp` (used by `Frame`)
-- `Window- Footage Holder 1`, `Window - Footage Holder 2`, `Window - Footage Holder 3`, `Window - Footage Holder 4` (used by `Windows`)
-- Swap media inside these holders (or use `replace_source`) to keep all Bento mattes, shadows, and animations intact.
+### Modular Component Library (`Assets/Components/`)
+| Subfolder | Contents & Notes |
+| :--- | :--- |
+| **`B-Roll Beats/`** | Transparent, motion-blurred `45 px`-gap B-Roll beats (`18 px` radius, `61 / 60` easing): `Broll - 1-Up` (`1830×990`), `Broll - 2-Up` (`892.5×990`), `Broll - 3-Up` (`580×990`), `Broll - 4-Up` (`892.5×472.5`), and `Broll - 50-50 Split + Copy` (`892.5×990` left bay + right editorial copy). Every multi-up bay has its own toggleable `Info Pill` parented directly to `Bay N - Matte`. |
+| **`Split Text Slides/`** | Transparent, line-free oversized editorial splits on Living Blue (`770 px` symmetrical measure, optically centered on `y = 540`, `Info Pill - 1-Up` `0.1/100` & `100/0.1` motion DNA, **Responsive Design – Time Protected Regions**): `Split Copy - Icon List (Right)`, `Split Copy - Pull-Quote (Left)`, `Split Copy - Icon Headline (Right)`, `Split Copy - Big Stat (Right)`, `Split Copy - Right`, `Split Copy - Left`. Move stationary `Center_And_Exit_CTRL.x` between `1044` (Right) and `106` (Left) to flip sides in 1 click. |
+| **`Info Pills/`** | Responsive white callout pills with Living Blue badge, native AE vector icon, `Info Pill CTRL` sliders (`Auto Width`, `Manual Width`, `Right Padding`), `Preserve Underlying Transparency` + alpha-matted vector clipping, and **Responsive Design – Time Protected Regions**: master `Info Pill - 1-Up`, standalone `Info Pill - Hero (2-Line)` & `Info Pill - Compact (1-Line)`, plus per-bay folders `2-Up/`, `3-Up/`, `4-Up/`. |
+| **`Icons/`** | `18` native `100×100` AE Vector Shape Layer icon comps (`icon_*`, continuously rasterized `☀`) converted from official OpenText SVGs — zero external PNG dependencies. |
+| **`Footage Holders/`** | Drop-in `1920×1080` (`Scale 100%`) footage precomps: `Footage Holder - Primary` (`60.03 s`, speaker slot) and `B-Roll Holder 1–4` (`30 s`, B-Roll bay slots). Swap media inside these holders to populate every Bento layout automatically. |
+| **`Backgrounds & Borders/`** | Procedural `NEW Lving Blue` (`30 s`), seamless `BG - NEW Lving Blue (60s)`, and `Border Frame - White (60s)`. |
+| **`Assets/Placeholder Footage/`** | `5` heavily compressed (`7.9 MB` total) `1080p` `30 fps` silent H.264 placeholders (`Speaker_Placeholder.mp4` + `Broll_Placeholder_01–04.mp4`), natively looped via `Interpret Footage → Loop`. |

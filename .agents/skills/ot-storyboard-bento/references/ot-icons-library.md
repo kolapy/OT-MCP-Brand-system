@@ -26,9 +26,8 @@ for ic in hits[:8]:
 
 ---
 
-## Recoloring for Brand Use
+## Recoloring & Native AE Vector Handoff (Zero External Icon Dependencies)
 
 Downloaded SVGs use black (`#000000` / `#000` / `currentColor`) strokes/fills by default:
-- **White Icon on Royal-Blue Badge (`#1A6AFF`)**: Replace `#000000`, `#000`, and `currentColor` with `#FFFFFF` (or set stroke/fill color in Figma after `figma.createNodeFromSvg()`).
-- **Royal Blue Icon on White Surface**: Replace with `#1A6AFF`.
-- **After Effects Handoff**: After Effects `import_footage` does not import raw `.svg` files directly. Recolor the SVG stroke/fill to `#FFFFFF` (or `#1A6AFF`), then rasterize to crisp transparent `256×256` PNGs via `rsvg-convert` (`rsvg-convert -w 256 -h 256 icon.svg -o Assets/Icons/icon_white.png`) so icons import cleanly with zero aliasing.
+- **Figma**: Replace `#000000`, `#000`, and `currentColor` with `#FFFFFF` (white on Living Blue / Royal Blue badge) or `#1A6AFF` (Royal Blue on white) after `figma.createNodeFromSvg()`.
+- **After Effects (MANDATORY — SVG → Native AE Vector Shape Layer)**: **Always prioritize SVG and convert SVG `<path>` geometry directly into native AE Vector Shape Layers** (`ADBE Vector Shape - Group` + `ADBE Vector Graphic - Stroke` with Round Cap/Join inside a `100×100` comp with `collapseTransformation = true` enabled) so every icon lives **100% natively inside the `.aep` with zero external PNG/SVG disk dependencies** and infinite vector resolution. Do **not** rasterize icons to external PNGs when SVGs are available.
