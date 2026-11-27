@@ -38,10 +38,27 @@ If an `A3` clip must be reinserted (for example, after an overwrite or sync rebu
 
 ---
 
-## 3. Music Bed Ducking (`A4`)
+## 3. LUFS-Calibrated Music Bed Ducking (`A4` or AE Master)
 
-Verify the background music bed with `get_keyframes(clipId, componentName="Volume", paramName="Level")`:
-- **Intro bumper**: Holds at intro level (e.g., `-12 dB` to `-14 dB`) up to ~`0.2s` before dialogue begins.
-- **Under dialogue**: Smoothly ramps down (`~1.0–1.2s` fade) to background bed level (e.g., `-26 dB` to `-32 dB`) and holds steady under the interview.
-- **Outro / Closer Ident**: Fades smoothly to silence (`-60 dB` / `~0.0007`) over `~3–5s` leading into the closer ident's audio/mnemonic.
-- For new beds, use `setup_ducking(clipId, baseDb, duckingWindows, fadeSeconds)` for clean 4-keyframe windows.
+Never guess music gain in raw dB—stock corporate music masters are frequently brickwalled at **`-9` to `-11 LUFS`**, where a naive `-20` or `-22 dB` cut still plays at `-31 LUFS` and competes with speech.
+
+1. **Measure both stems first** with lightweight audio-only `ffmpeg`:
+   ```bash
+   ffmpeg -nostats -i dialogue_stem.wav -vn -af "ebur128=peak=true" -f null - 2>&1 | tail -15
+   ffmpeg -nostats -i music_track.wav   -vn -af "ebur128=peak=true" -f null - 2>&1 | tail -15
+   ```
+2. **Apply LUFS-anchored gain staging**:
+   - **Dialogue stem**: Target **`-20` to `-18 LUFS`** integrated (True Peak `<= -1.5 dBFS`).
+   - **Intro / Outro (no speech)**: Target **`-22` to `-20 LUFS`** (aligned with closer ident loudness), holding up to `~0.6–0.8 s` before speech begins.
+   - **Under active dialogue**: Smoothly ramp (`0.8–1.0 s` eased fade) down to **`-40` to `-44 LUFS`** (**`20–24 LU` below active speech** — typically **`-32` to `-36 dB`** on `-9` to `-11 LUFS` stock masters) and hold cleanly across speech.
+   - **Outro / Closer Ident**: Optional brief lift (`+6–8 dB` on the final word tail), then fade smoothly to silence (`-60 dB`) into the closer ident's audio/mnemonic.
+3. For new Premiere beds, use `setup_ducking(clipId, baseDb, duckingWindows, fadeSeconds)` for clean 4-keyframe windows.
+
+---
+
+## 4. Premiere Pro → After Effects Dynamic Link WAV Stem Handoff
+
+When importing a Premiere Pro sequence (`.prproj`) that uses AI **`Enhance Speech`** into After Effects via Dynamic Link:
+1. AE's headless Dynamic Link server frequently drops Premiere `Enhance Speech` audio to **`0.000` silence** past the first few seconds.
+2. **Standard Fix**: Export a lossless **48 kHz WAV dialogue stem** directly from Premiere Pro (`export_sequence` using Premiere's factory `Waveform Audio 48kHz 16-bit.epr` preset) to a **colon-free POSIX path** (avoid macOS Finder folders containing `/`, which store as `:` in POSIX and break ExtendScript/Media Encoder paths).
+3. Import that WAV stem into After Effects synced to the exact speaker `inPoint`, set **`audioEnabled = false`** on the Dynamic Link video layer (and all B-roll layers) so audio can never drop or double, and probe live AE audio amplitude across multiple timeline points before saving.

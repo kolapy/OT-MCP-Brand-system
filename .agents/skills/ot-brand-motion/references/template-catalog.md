@@ -15,7 +15,7 @@ All compositions are **30 fps**, deduplicated, and free of Animation Composer de
 ---
 
 ## Module 1: Corp Brand Package
-Root folder: `Assets/Dependancies/OT Corp level brand package (CC26)-V3.aep/`
+Root folder: `Assets/_Dependancies/OT_Corp_Brand_30fps.aep/` (or `OT Corp level brand package (CC26)-V3.aep/`)
 
 Available in both **`OUTPUT - 16x9/`** (`1920x1080`) and **`OUTPUT - 9x16/`** (`1080x1920`):
 
@@ -53,11 +53,12 @@ Available in both **`OUTPUT - 16x9/`** (`1920x1080`) and **`OUTPUT - 9x16/`** (`
 ### Sonic Ident (`Sonic Ident/`)
 - `STD ident` (`1920x1080`), `STD ident 4k` (`3840x2160`), `STD ident - 9x16` (`1080x1920`).
 - Includes `OpenText_Mnemonic_Final_WAV.wav`, animated 3D `O-P-E-N-T-E-X-T` + `tm` vector chain, and `Simple Tile` pre-render.
+- **Loudness Anchor**: Integrated `-22.7 LUFS` (Peak `-4.1 dBFS`) — use as the loudness reference for speech-free intro/outro music beds.
 
 ---
 
 ## Module 2: Bento Base Template
-Root folder: `Assets/Dependancies/Bento Base template (converted).aep/`
+Root folder: `Assets/_Dependancies/OT_Bento_30fps.aep/` (or `Bento Base template (converted).aep/`)
 
 ### Layout Skeleton Comps (`1920x1080`, `10 s`, `30 fps`)
 Use these as structural starting points; upgrade typography from `MyriadPro-Regular` → `Inter` and apply brand surfaces/animations:
@@ -75,8 +76,8 @@ Use these as structural starting points; upgrade typography from `MyriadPro-Regu
 ### Polished Framing / Footage Output Comps (`OUTPUT/`)
 | Comp Name | Purpose & Structure |
 | :--- | :--- |
-| `4 up` | 4 rounded (`18 px`) card mattes (`1`–`4`) over white/custom backing |
-| `Border Frame` | `alpha_inverted` rounded frame with `4-Color Gradient` + `Solid White` checkbox. For full-screen white borders in `Frame - MAIN`, animate `MATTE 2` IN (`Scale 113% → 100%`, `ease_out 61 / ease_in 60`; `Rect Size 1778.1 → 1839.1`) and **invert the OUT curve** (`Scale 100% → 113%`, `ease_out 60 / ease_in 61`; `Rect Size 1839.1 → 1778.1`) before every slide or `Frame Down`. |
+| `4 up` | 4 rounded (`18 px`) card mattes (`1`–`4`, each `900×481`) over `NEW Lving Blue`. Exact settled bay bounds: Bay 1 TL `x: 40–940, y: 39–520`; Bay 2 TR `x: 980–1880, y: 39–520`; Bay 3 BL `x: 40–940, y: 560–1041`; Bay 4 BR `x: 980–1880, y: 560–1041`. Align lower-corner pills to uniform `24 px` insets (`left: 64 / 1004`, `bottom: 496 / 1017`) and verify each bay's child video `startTime <= matte.inPoint`. |
+| `Border Frame` | `alpha_inverted` rounded frame with `4-Color Gradient` + `Solid White` checkbox. Always stack **above** any `L3` precomp (`Border Frame > L3 > Footage`). For full-screen white borders in `Frame - MAIN`, animate `MATTE 2` IN (`Scale 113% → 100%`, `ease_out 61 / ease_in 60`; `Rect Size 1778.1 → 1839.1`) and **invert the OUT curve** (`Scale 100% → 113%`, `ease_out 60 / ease_in 61`; `Rect Size 1839.1 → 1778.1`) before every slide or `Frame Down`. |
 | `Frame` | Rounded `MATTE` (`18 px` radius) over `Footage Holder Comp` on top of canonical `NEW Lving Blue` (`BG`). **Coupled 4-State Rig**: `MATTE` (`Position` + `Rect Size`) and `Footage Holder Comp` (`Scale` `120% ↔ 100%`) move together across 4 marker states: `Frame in ->` (rise `y: 1610 → 540`, expand `1838×998 → 1998×1118`, scale `120% → 100%`), `Slide Left` (`x: 960 → 520`, `927×989`, scale `100% → 120%`), `Slide Right` (`x: 960 → 1400`, `927×989`, scale `100% → 120%`), and `<- Frame out` (`Frame Down` to `y: 1610` to reveal full-screen titles/slides on `BG`). Always keyframe `MATTE` and `Footage Holder Comp` `Scale` 1-to-1. |
 | `Windows` | 4 staggered (`0.33 s` offset) rounded (`18 px`) drop-shadowed matte windows (`1–4 - Matte - MOVE ME`) paired with `Window - Footage Holder 1–4` precomps |
 

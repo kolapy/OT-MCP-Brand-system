@@ -23,7 +23,7 @@ Use this skill for **pre-production** of OpenText videos using the **Bento treat
 
 ---
 
-## Canonical Storyboard Layout (Modeled on `OpenText GCC Flyover – Bento Storyboard`)
+## Canonical Storyboard Layout
 
 ### Canvas Grid
 - **3-column horizontal grid** of storyboard boards:
@@ -35,20 +35,22 @@ Use this skill for **pre-production** of OpenText videos using the **Bento treat
 - **Living Blue Outer Border**: Full `1920 × 1080` background filled with the OpenText Living Blue diagonal gradient (`#00008B` deep navy → `#1A6AFF` royal blue), leaving a **`38 px` border** around inner B-roll bays (`cornerRadius: 18 px`).
 - **Standard Bay Layouts** (`28 px` internal gutter):
   - **1-Up Establisher**: `1` bay at `(38, 38)`, `1844 × 1004`
-  - **2-Up Comparison**: `2` bays at `x = 38` and `x = 974`, each `908 × 1004`
+  - **2-Up Comparison**: `2` bays at `x = 38` and `x = 974`, each `908 × 1004` — use for pure visual side-by-side comparisons (never straddle a floating white info box across the center gutter)
   - **3-Up Pillars**: `3` bays at `x = 38, 662, 1286`, each `596 × 1004`
-  - **4-Up Grid (2×2)**: `4` bays (`908 × 488`) at `(38, 38)`, `(974, 38)`, `(38, 554)`, `(974, 554)`
-  - **50/50 Living Blue Split**: Left B-roll bay `(38, 38, 908 × 1004)` + right open Living Blue canvas with centered white `Inter` headline & supporting copy
+  - **4-Up Grid (2×2)**: `4` bays (`908 × 488`) at `(38, 38)`, `(974, 38)`, `(38, 554)`, `(974, 554)` — align lower-corner white pills cleanly to uniform `24 px` left/bottom bay insets
+  - **50/50 Living Blue Split (Preferred for B-Roll + Copy)**: Left B-roll bay `(38, 38, 908 × 1004)` + right open Living Blue canvas (`x = 1056..1796`) with optically centered (`y = 540`) white `Inter` eyebrow, icon + headline, accent rule, and balanced 2-line body copy (zero single-word orphans)
+  - **Speaker Pull-Quote Split**: Speaker framed with balanced portrait headroom in one `927 × 990` Bento bay + optically centered (`y = 540`) eyebrow, `Inter-Bold` quote, accent divider + `55–65 px` clearance above `— Speaker Name` on the opposite Living Blue half
   - **Full-Bleed Statement**: Full `1920 × 1080` Living Blue gradient with centered editorial headline + subtitle
   - **Bookends (MANDATORY — Real Brand Stills Only)**:
     - **Frame 01 (Standard Intro)**: Pick 1 of the 3 official `Bumper IN` color options based on the video's visual tone and upload its real still from `resources/`: `bumper_in_white.png` (White logo on Living Blue), `bumper_in_blue.png` (Blue/White logo on Black), or `bumper_in_black.png` (Black logo on White).
     - **Final Frame(s) (REAL Sonic Ident)**: Always close with the real **Sonic Ident** (`STD ident` / `IDENT 2025 - Tail --2026 - Rev2.mov`), uploading `resources/sonic_ident_tile.png` (3D tile converge) and/or `resources/sonic_ident_lockup.png` (final lockup). Never substitute a fake text logo or generic CTA card for the Sonic Ident.
 
-### Floating Overlays
-- **Stat / Callout Pill (HUG)**: White `#FFFFFF` pill (`cornerRadius: 14–16 px`, soft drop shadow), containing:
+### Floating Overlays & Transitions
+- **Stat / Callout Pill (HUG)**: White `#FFFFFF` pill (`cornerRadius: 14–16 px`, soft drop shadow), anchored inside the lower-left corner of its **own** bay (`24 px` left/bottom inset — never straddling across a multi-up gutter), containing:
   - Left **`44×44`–`48×48` royal-blue (`#1A6AFF`) rounded icon badge** (`cornerRadius: 10 px`) with a crisp **white SVG icon** from `ot-icons-library.onrender.com`
   - `Inter` **Bold** dark-navy (`#0D1B3E`) title + optional `Inter` **Regular** slate (`#4A5568`) subtitle
-- **Lower Third (`L3 - Left 16x9`)**: Anchored near `(76, 836)` over B-roll establishers—white or Living Blue pill matching `OT Corp level brand package`.
+- **Lower Third (`L3 - Left 16x9`)**: Anchored near `(76, 836)` stacked **below** the white Bento `Border Frame`—white or Living Blue pill matching `OT Corp level brand package`, with `, OpenText` appended to internal speaker titles.
+- **Physical Bento Transitions Only**: Note physical Bento matte transitions (`Frame Up`, `Frame Down`, `Slide Left`/`Slide Right`) between scenes rather than opacity crossfades. On single-camera speaker edits, schedule `1-Up`, `4-Up`, or `50/50 Split` B-roll beats across editorial jump cuts.
 - **B-Roll Bay Placeholder / Preview**: Either a real extracted B-roll frame image (uploaded via `upload_assets` / image fill) or a clean pale-blue bay (`#E4ECFF`) with a subtle B-roll label centered or top-aligned so it never collides with floating pills.
 
 ### Explaining Text Footer (`x = 0, y = 1098, w = 1920, h = 83`)

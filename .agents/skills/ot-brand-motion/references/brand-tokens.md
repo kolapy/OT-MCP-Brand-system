@@ -43,8 +43,12 @@ Always use the **`Inter`** family (replace `MyriadPro-Regular` in Bento skeleton
 | **Bento Card Title / Metric** | `Inter-Bold` | `48–72 px` | `1.15×` | White `[1,1,1]` | Left-aligned inside card padding |
 | **Lower Third — Name** | `Inter-Bold` | `46 px` | `55.2 px` | White `[1,1,1]` | Auto-sizes `BG` via `sourceRectAtTime` |
 | **Lower Third — Title** | `Inter-Regular` | `27 px` | `32.4 px` | White `[1,1,1]` | Always append `, OpenText` for internal speakers; supports `Double Title` checkbox |
-| **Bento Pull-Quote** | `Inter-Bold` | `56 px` | `70 px` | White `[1,1,1]` | `-10` tracking, `box_size: [730, 560]`, `anchor: [0, 0]`, `x = 1477` (right) / `x = 493` (left), visually centered on `y = 540` |
-| **Bento Quote Attribution** | `Inter-Regular` | `34 px` | `70 px` | `[0.84, 0.93, 1.0]` | Styled via `set_text` range on `— Speaker Name` inside the quote box |
+| **Bento Pull-Quote** | `Inter-Bold` | `54–56 px` | `66–70 px` | White `[1,1,1]` | `-10` tracking, `box_size: [730–740, 320–560]`, right column `x = 1056` / left column `x = 104`, entire group optically centered on `y = 540` |
+| **Bento Quote Attribution** | `Inter-Regular` | `32–34 px` | `38–42 px` | `[0.84, 0.93, 1.0]` | Separate layer placed `55–65 px` below closing quote line (`36 px` gap + `84×3 px` subtle divider `[0.60, 0.82, 1.0]` + `24 px` gap) |
+| **Split Eyebrow Label** | `Inter-SemiBold` | `22 px` | `26.4 px` | `[0.64, 0.82, 1.0]` | Uppercase, tracking `+160`, placed `22–24 px` above split headline or pull-quote |
+| **50/50 Split Headline** | `Inter-Bold` | `54 px` | `64 px` | White `[1,1,1]` | `-15` tracking, optional `56×56 px` white brand icon vertically centered to headline glyph bounds (`20 px` gap) |
+| **50/50 Split Body Copy** | `Inter-Regular` | `32 px` | `46 px` | `[0.86, 0.94, 1.0]` | `box_size: [740, 220]`, placed below `120×4 px` accent rule; keep balanced 2-line wraps (zero single-word orphans) |
+| **White Bento Pill Title / Sub** | `Inter-Bold` / `Inter-Regular` | `26–30 px` / `21 px` | `1.2×` | `#0D1B3E` / `#4A5568` | Inside `#FFFFFF` rounded pill (`r = 14–16 px`, `H = 68 px` for 4-Up / `92 px` for 1-Up), uniform `24 px` left/bottom bay inset |
 | **Body / Supporting Label** | `Inter-Regular` | `28–38 px` | `1.25×` | White or Off-White | Avoid <26 px on 1080p |
 | **CTA Bumper Text** | `Inter-Regular` | `290 px` at `30%` scale (`~87 px` effective) | `400 px` | White (or Black on White theme) | Centered below logo lockup |
 
@@ -72,8 +76,22 @@ Consistent geometry extracted from `4 up`, `Windows`, and `Border Frame`:
   1. **Left-to-Right Character Ramp Reveal**: Native AE Text Animator (`Opacity: 0%`, `Shape: Ramp Up`, `Smoothness: 100%`, `Based On: Characters Excluding Spaces`, `Offset: -100% → 100%` with `easeOut`) paired with subtle directional slide (`Position`).
   2. **Circular `"O"` Reveal / Wipe**: Used across `Transition` and `Bumper` comps (`SILHOUETE_ALPHA` / 3D scale push).
   3. **Living Backgrounds**: Continuous subtle drift (`loopOut("cycle")` on `4-Color Gradient` points + `Turbulent Displace` evolution) so holds never feel dead/frozen.
-- **Pacing**:
+- **Pacing & Easing**:
   - First motion starts within `0.15–0.33 s`.
-  - Card / element entrances: `0.45–0.65 s` decelerating (`snappy` / `easeOut`), staggered `0.06–0.12 s` across Bento cards (`Windows` staggers `0.33 s` per window).
+  - Bento matte IN / `Frame Up`: `0.45–0.65 s` decelerating (`ease_out 61% / ease_in 60%`).
+  - Bento matte OUT / `Frame Up & Off` / `Border` exit: invert curves (`ease_out 60% / ease_in 61%`), `0.40–0.65 s`; use `HOLD` keyframes for off-screen resets.
+  - `4 up` quadrant stagger: tight `0.15–0.22 s` between bays (`0.45 s` slide-up), with white callout pills emerging `+0.25–0.35 s` after each bay starts.
+  - Split callout / pull-quote stagger: Eyebrow → Headline/Quote `0.25–0.35 s`; Rule/Attribution `+0.30–0.40 s`.
   - Lower third stagger: `Name` enters at `0.33 s`, `Title` enters at `0.87 s` (`+0.53 s` offset).
   - Exits accelerate (`easeIn`), `0.35–0.45 s`.
+
+---
+
+## 5. Audio Loudness & B-Roll Exposure Targets
+
+| Signal | Target Metric | Notes |
+| :--- | :--- | :--- |
+| **Speaker Dialogue Stem** | `-20` to `-18 LUFS` (True Peak `<= -1.5 dBFS`) | Export 48 kHz WAV from Premiere when using `Enhance Speech` |
+| **Intro / Outro Music (No Speech)** | `-22` to `-20 LUFS` | Anchored to Sonic Ident (`-22.7 LUFS` integrated) |
+| **Ducked Music Under Speech** | `-40` to `-44 LUFS` (`20–24 LU` below speech) | Always measure raw music LUFS first (`-9` to `-11 LUFS` stock tracks need `-32` to `-36 dB`) |
+| **Live-Action B-Roll Exposure** | `p99 ≈ 80 IRE` (`79–82 IRE`), `p50 ≈ 32–37 IRE` | Match A-cam neutral-warm white balance & skin tones via native `ADBE Lumetri` |

@@ -31,4 +31,4 @@ for ic in hits[:8]:
 Downloaded SVGs use black (`#000000` / `#000` / `currentColor`) strokes/fills by default:
 - **White Icon on Royal-Blue Badge (`#1A6AFF`)**: Replace `#000000`, `#000`, and `currentColor` with `#FFFFFF` (or set stroke/fill color in Figma after `figma.createNodeFromSvg()`).
 - **Royal Blue Icon on White Surface**: Replace with `#1A6AFF`.
-- **After Effects Handoff**: Save downloaded SVGs into `Assets/Icons/` (or convert to clean high-res PNG / vector EPS/AI if importing directly into AE via `import_footage`).
+- **After Effects Handoff**: After Effects `import_footage` does not import raw `.svg` files directly. Recolor the SVG stroke/fill to `#FFFFFF` (or `#1A6AFF`), then rasterize to crisp transparent `256×256` PNGs via `rsvg-convert` (`rsvg-convert -w 256 -h 256 icon.svg -o Assets/Icons/icon_white.png`) so icons import cleanly with zero aliasing.
